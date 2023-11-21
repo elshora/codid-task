@@ -2,71 +2,31 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Montserrat } from "next/font/google";
-// import {
-//   Code,
-//   ImageIcon,
-//   LayoutDashboard,
-//   MessageSquare,
-//   Music,
-//   Settings,
-//   VideoIcon,
-// } from "lucide-react";
+import { CalendarPlus, FolderKanban, ShieldAlert } from "lucide-react";
 import { usePathname } from "next/navigation";
-
-const poppins = Montserrat({ weight: "600", subsets: ["latin"] });
 
 const routes = [
   {
-    label: "Dashboard",
-    // icon: LayoutDashboard,
+    label: "Create",
+    icon: CalendarPlus,
     href: "/dashboard",
     color: "text-sky-500",
   },
   {
-    label: "Conversation",
-    // icon: MessageSquare,
-    href: "/conversation",
+    label: "Manage",
+    icon: FolderKanban,
+    href: "/",
     color: "text-violet-500",
   },
   {
-    label: "Image Generation",
-    // icon: ImageIcon,
-    color: "text-pink-700",
-    href: "/image",
-  },
-  {
-    label: "Video Generation",
-    // icon: VideoIcon,
-    color: "text-orange-700",
-    href: "/video",
-  },
-  {
-    label: "Music Generation",
-    // icon: Music,
-    color: "text-emerald-500",
-    href: "/music",
-  },
-  {
-    label: "Code Generation",
-    // icon: Code,
-    color: "text-green-700",
-    href: "/code",
-  },
-  {
-    label: "Settings",
-    // icon: Settings,
-    href: "/settings",
+    label: "Administration",
+    icon: ShieldAlert,
+    href: "/",
+    color: "text-violet-500",
   },
 ];
 
-export const Sidebar = ({
-  apiLimitCount = 0,
-  isPro = false,
-}: {
-  apiLimitCount: number;
-  isPro: boolean;
-}) => {
+export const Sidebar = () => {
   const pathname = usePathname();
 
   return (
@@ -76,7 +36,7 @@ export const Sidebar = ({
           <div className="relative h-8 w-8 mr-4">
             <Image fill alt="Logo" src="/logo.png" />
           </div>
-          <h1 className={"text-2xl font-bold"}>Genius</h1>
+          <h1 className={"text-2xl font-bold"}>Codid</h1>
         </Link>
         <div className="space-y-1">
           {routes.map((route) => (
@@ -91,7 +51,7 @@ export const Sidebar = ({
                 }`}
             >
               <div className="flex items-center flex-1">
-                {/* <route.icon className={"h-5 w-5 mr-3"} /> */}
+                <route.icon className={"h-5 w-5 mr-3"} />
                 {route.label}
               </div>
             </Link>
