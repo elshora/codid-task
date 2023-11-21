@@ -19,14 +19,14 @@ interface Attachment {
   sourcingStrategy: string;
   description: string;
 }
-
-const getEventsFromLocalStorage = () => {
-  const data = localStorage.getItem("myData");
-  return data ? JSON.parse(data ?? "[]") : [];
-};
 export default function HomePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedType, setSelectedType] = useState("1");
+
+  const getEventsFromLocalStorage = () => {
+    const data = localStorage.getItem("eventsData");
+    return data ? JSON.parse(data ?? "[]") : [];
+  };
   // const oldEvents = JSON.parse(localStorage.getItem("eventData") ?? "");
   const [attachmentData, setAttachmentData] = useState<Attachment[]>([]);
   useEffect(() => {
@@ -34,12 +34,6 @@ export default function HomePage() {
     setAttachmentData(eventsData);
   }, []);
 
-  useEffect(() => {
-    const oldEvents = JSON.parse(localStorage.getItem("eventData") ?? "");
-    if (oldEvents.length) {
-      setAttachmentData(oldEvents);
-    }
-  }, []);
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };

@@ -21,7 +21,7 @@ interface EventFormProps {
   setAttachmentData: React.Dispatch<React.SetStateAction<Attachment[]>>;
 }
 const updateEventsInLocalStorage = (updatedData: Attachment[]) => {
-  localStorage.setItem("myData", JSON.stringify(updatedData));
+  localStorage.setItem("eventsData", JSON.stringify(updatedData));
 };
 
 const EventForm: React.FC<EventFormProps> = ({
