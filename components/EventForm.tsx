@@ -1,20 +1,26 @@
-// EventForm.tsx
+"use client";
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import Select from "react-select";
 
 interface FormData {
   title: string;
-  eventType: { value: string; label: string } | null;
-  sourcingStrategy: { value: string; label: string } | null;
+  eventType: string;
+  sourcingStrategy: string;
   description: string;
   [key: string]: string | { value: string; label: string } | null;
 }
-
-const EventForm: React.FC = () => {
+interface EventFormProps {
+  toggleModal: () => void;
+  setAttachmentData: (attachment: [] | null) => void;
+}
+const EventForm: React.FC<EventFormProps> = ({
+  toggleModal,
+  setAttachmentData,
+}) => {
   const [formData, setFormData] = useState<FormData>({
     title: "",
-    eventType: null,
-    sourcingStrategy: null,
+    eventType: "",
+    sourcingStrategy: "",
     description: "",
   });
 
@@ -31,18 +37,13 @@ const EventForm: React.FC = () => {
     { value: "external", label: "External" },
   ];
 
-  const handleChange = (
-    name: string,
-    value: string | { value: string; label: string }
-  ) => {
+  const handleChange = (name: string, value: string) => {
     setFormData({ ...formData, [name]: value });
     setErrors({ ...errors, [name]: null });
   };
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-
-    // Basic form validation
     const newErrors: Record<string, string> = {};
     Object.keys(formData).forEach((key) => {
       if (!formData[key]) {
@@ -51,28 +52,26 @@ const EventForm: React.FC = () => {
     });
 
     setErrors(newErrors);
-
     if (Object.keys(newErrors).length === 0) {
       const oldEvents: any = localStorage.getItem("eventData") ?? {};
-
-      console.log(oldEvents);
-
+      const oldData = JSON.parse(oldEvents);
       localStorage.setItem(
         "eventData",
-        JSON.stringify(
-          oldEvents?.length ? [...JSON.parse(oldEvents), formData] : [formData]
-        )
+        JSON.stringify(oldEvents?.length ? [...oldData, formData] : [formData])
       );
-
-      // Reset form
+      setAttachmentData((prev) => {
+        if (prev?.length > 0) return [...prev, formData];
+        else {
+          [formData];
+        }
+      });
+      toggleModal();
       setFormData({
         title: "",
-        eventType: null,
-        sourcingStrategy: null,
+        eventType: "",
+        sourcingStrategy: "",
         description: "",
       });
-
-      // Clear errors
       setErrors({});
     }
   };
@@ -108,7 +107,7 @@ const EventForm: React.FC = () => {
         <Select
           id="eventType"
           options={eventTypeOptions}
-          value={formData.eventType}
+          //   value={formData.eventType}
           onChange={(selectedOption) =>
             handleChange("eventType", selectedOption?.value ?? "")
           }
@@ -129,7 +128,7 @@ const EventForm: React.FC = () => {
         <Select
           id="sourcingStrategy"
           options={sourcingStrategyOptions}
-          value={formData.sourcingStrategy}
+          //   value={formData.sourcingStrategy}
           onChange={(selectedOption) =>
             handleChange("sourcingStrategy", selectedOption?.value ?? "")
           }
@@ -163,6 +162,7 @@ const EventForm: React.FC = () => {
         <button
           type="button"
           className="bg-gray-300 text-white px-7 py-2 rounded"
+          onClick={toggleModal}
         >
           Cancel
         </button>
