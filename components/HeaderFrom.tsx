@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import FormField from "./FormField";
 import SelectField from "./SelectField";
 import FormButtons from "./FormButtons";
@@ -110,13 +110,24 @@ const HeaderForm: React.FC = () => {
             onChange={setProjectTitle}
             error={errors.projectTitle}
           />
-          <FormField
-            label="Description"
-            placeholder="Enter project description"
-            value={description}
-            onChange={setDescription}
-            error={errors.description}
-          />
+          <div className="mb-4">
+            <label htmlFor="description" className="block text-gray-700  mb-2">
+              Description:
+            </label>
+            <textarea
+              id="description"
+              placeholder="Please Enter Description"
+              value={description}
+              onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
+                setDescription(e.target.value)
+              }
+              rows={4}
+              className="w-full p-2 border rounded "
+            />
+            {errors.description && (
+              <span className="text-red-500">{errors.description}</span>
+            )}
+          </div>
           <FormField
             label="Owner"
             placeholder="Enter owner"
