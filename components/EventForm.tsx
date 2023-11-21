@@ -59,12 +59,17 @@ const EventForm: React.FC<EventFormProps> = ({
         "eventData",
         JSON.stringify(oldEvents?.length ? [...oldData, formData] : [formData])
       );
+      // @ts-ignore
       setAttachmentData((prev) => {
-        if (prev?.length > 0) return [...prev, formData];
-        else {
-          [formData];
+        const prevData = prev as FormData[];
+
+        if (prevData.length > 0) {
+          return [...prevData, formData];
+        } else {
+          return [formData];
         }
       });
+
       toggleModal();
       setFormData({
         title: "",

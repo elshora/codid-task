@@ -13,12 +13,19 @@ const AttachmentOptions: Selection[] = [
   { value: "1", label: "Event" },
   { value: "2", label: "Document" },
 ];
-
+interface Attachment {
+  title: string;
+  eventType: string;
+  sourcingStrategy: string;
+  description: string;
+}
 export default function HomePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedType, setSelectedType] = useState("1");
   // const oldEvents = JSON.parse(localStorage.getItem("eventData") ?? "");
-  const [attachmentData, setAttachmentData] = useState<[] | null>(null);
+  const [attachmentData, setAttachmentData] = useState<Attachment[] | null>(
+    null
+  );
 
   useEffect(() => {
     const oldEvents = JSON.parse(localStorage.getItem("eventData") ?? "");
@@ -53,6 +60,7 @@ export default function HomePage() {
               Manage
             </button>
           </div>
+          {/* @ts-ignore */}
           <DataTable attachmentData={attachmentData} />
         </div>
         {/* Modal container */}
