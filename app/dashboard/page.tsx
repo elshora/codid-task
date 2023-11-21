@@ -22,7 +22,7 @@ interface Attachment {
 
 const getEventsFromLocalStorage = () => {
   const data = localStorage.getItem("myData");
-  return data ? JSON.parse(data) : [];
+  return data ? JSON.parse(data ?? "[]") : [];
 };
 export default function HomePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
