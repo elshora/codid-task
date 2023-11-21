@@ -9,13 +9,25 @@ interface FormData {
   description: string;
   [key: string]: string | { value: string; label: string } | null;
 }
+interface Attachment {
+  title: string;
+  eventType: string;
+  sourcingStrategy: string;
+  description: string;
+}
 interface EventFormProps {
   toggleModal: () => void;
-  setAttachmentData: (attachment: [] | null) => void;
+  attachmentData: Attachment[];
+  setAttachmentData: React.Dispatch<React.SetStateAction<Attachment[]>>;
 }
+const updateEventsInLocalStorage = (updatedData: Attachment[]) => {
+  localStorage.setItem("myData", JSON.stringify(updatedData));
+};
+
 const EventForm: React.FC<EventFormProps> = ({
   toggleModal,
   setAttachmentData,
+  attachmentData,
 }) => {
   const [formData, setFormData] = useState<FormData>({
     title: "",
@@ -50,26 +62,11 @@ const EventForm: React.FC<EventFormProps> = ({
         newErrors[key] = "This field is required";
       }
     });
-
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
-      const oldEvents: any = localStorage.getItem("eventData") ?? {};
-      const oldData = JSON.parse(oldEvents);
-      localStorage.setItem(
-        "eventData",
-        JSON.stringify(oldEvents?.length ? [...oldData, formData] : [formData])
-      );
-      // @ts-ignore
-      setAttachmentData((prev) => {
-        const prevData = prev as FormData[];
-
-        if (prevData.length > 0) {
-          return [...prevData, formData];
-        } else {
-          return [formData];
-        }
-      });
-
+      const newEvents: Attachment[] = [...attachmentData, formData];
+      updateEventsInLocalStorage(newEvents);
+      setAttachmentData(newEvents as Attachment[]);
       toggleModal();
       setFormData({
         title: "",

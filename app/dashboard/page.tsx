@@ -4,7 +4,7 @@ import DocumentForm from "@/components/DocumentForm";
 import EventForm from "@/components/EventForm";
 import { MoveLeft } from "lucide-react";
 import { useEffect, useState } from "react";
-import ReactSelect, { ActionMeta, SingleValue } from "react-select";
+import ReactSelect, { SingleValue } from "react-select";
 interface Selection {
   value: string;
   label: string;
@@ -19,13 +19,20 @@ interface Attachment {
   sourcingStrategy: string;
   description: string;
 }
+
+const getEventsFromLocalStorage = () => {
+  const data = localStorage.getItem("myData");
+  return data ? JSON.parse(data) : [];
+};
 export default function HomePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedType, setSelectedType] = useState("1");
   // const oldEvents = JSON.parse(localStorage.getItem("eventData") ?? "");
-  const [attachmentData, setAttachmentData] = useState<Attachment[] | null>(
-    null
-  );
+  const [attachmentData, setAttachmentData] = useState<Attachment[]>([]);
+  useEffect(() => {
+    const eventsData = getEventsFromLocalStorage();
+    setAttachmentData(eventsData);
+  }, []);
 
   useEffect(() => {
     const oldEvents = JSON.parse(localStorage.getItem("eventData") ?? "");
@@ -80,6 +87,7 @@ export default function HomePage() {
                   <EventForm
                     toggleModal={toggleModal}
                     setAttachmentData={setAttachmentData}
+                    attachmentData={attachmentData}
                   />
                 ) : (
                   <DocumentForm />
