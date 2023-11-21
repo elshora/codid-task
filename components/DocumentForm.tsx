@@ -1,4 +1,3 @@
-// components/FileInputForm.tsx
 import { Trash, UploadCloud } from "lucide-react";
 import React, { useState } from "react";
 
