@@ -94,7 +94,7 @@ export default function HomePage() {
                     attachmentData={attachmentData}
                   />
                 ) : (
-                  <DocumentForm />
+                  <DocumentForm toggleModal={toggleModal} />
                 )}
               </div>
             </div>
