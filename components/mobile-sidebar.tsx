@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Sidebar } from "@/components/sidebar";
 
 export const MobileSidebar = () => {
   const [isMounted, setIsMounted] = useState(false);
-
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -15,8 +14,7 @@ export const MobileSidebar = () => {
   }
 
   return (
-    <nav>
-      <button className="md:hidden">testssss</button>
+    <nav className="md:hidden">
       <Sidebar />
     </nav>
   );

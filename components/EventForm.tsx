@@ -90,6 +90,7 @@ const EventForm: React.FC<EventFormProps> = ({
         <input
           type="text"
           id="title"
+          placeholder="Please Type Attachment title"
           value={formData.title}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             handleChange("title", e.target.value)
@@ -109,6 +110,7 @@ const EventForm: React.FC<EventFormProps> = ({
         <Select
           id="eventType"
           options={eventTypeOptions}
+          placeholder="Please Select Event Type"
           //   value={formData.eventType}
           onChange={(selectedOption) =>
             handleChange("eventType", selectedOption?.value ?? "")
@@ -129,6 +131,7 @@ const EventForm: React.FC<EventFormProps> = ({
         </label>
         <Select
           id="sourcingStrategy"
+          placeholder="Please Select Sourcing Strategy"
           options={sourcingStrategyOptions}
           //   value={formData.sourcingStrategy}
           onChange={(selectedOption) =>
@@ -150,6 +153,7 @@ const EventForm: React.FC<EventFormProps> = ({
         </label>
         <textarea
           id="description"
+          placeholder="Please Select REquest Description"
           value={formData.description}
           onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
             handleChange("description", e.target.value)

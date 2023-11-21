@@ -2,6 +2,8 @@
 import DataTable from "@/components/DataTable";
 import DocumentForm from "@/components/DocumentForm";
 import EventForm from "@/components/EventForm";
+import HeaderDetails from "@/components/HeaderDetails";
+import HeaderForm from "@/components/HeaderFrom";
 import { MoveLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import ReactSelect, { SingleValue } from "react-select";
@@ -27,7 +29,6 @@ export default function HomePage() {
     const data = localStorage.getItem("eventsData");
     return data ? JSON.parse(data ?? "[]") : [];
   };
-  // const oldEvents = JSON.parse(localStorage.getItem("eventData") ?? "");
   const [attachmentData, setAttachmentData] = useState<Attachment[]>([]);
   useEffect(() => {
     const eventsData = getEventsFromLocalStorage();
@@ -40,6 +41,23 @@ export default function HomePage() {
   const handleSelection = (selectedType: SingleValue<Selection>): void => {
     setSelectedType(selectedType?.value ?? "1");
   };
+  const AttachmentDetails = () => (
+    <div className="bg-white p-4">
+      <div className="mt-4 flex justify-end">
+        <button
+          className="bg-transparent border border-blue-200 text-blue-500 px-4 py-2 mr-2 rounded"
+          onClick={toggleModal}
+        >
+          Create
+        </button>
+        <button className="bg-transparent border border-blue-200 text-blue-500 px-4 py-2 rounded">
+          Manage
+        </button>
+      </div>
+      {/* @ts-ignore */}
+      <DataTable attachmentData={attachmentData} />
+    </div>
+  );
   return (
     <div>
       <div className="mb-8 space-y-4">
@@ -49,21 +67,13 @@ export default function HomePage() {
             Create Project
           </h3>
         </header>
-        <div className="bg-white p-4 shadow-md">
-          <div className="mt-4 flex justify-end">
-            <button
-              className="bg-transparent border border-blue-200 text-blue-500 px-4 py-2 mr-2 rounded"
-              onClick={toggleModal}
-            >
-              Create
-            </button>
-            <button className="bg-transparent border border-blue-200 text-blue-500 px-4 py-2 rounded">
-              Manage
-            </button>
-          </div>
-          {/* @ts-ignore */}
-          <DataTable attachmentData={attachmentData} />
-        </div>
+        <section className="my-5">
+          <HeaderDetails title="Header Details" content={<HeaderForm />} />
+        </section>
+        <section className="my-5">
+          <HeaderDetails title="Attachments" content={<AttachmentDetails />} />
+        </section>
+
         {/* Modal container */}
         <div className={`modal ${isModalOpen ? "block" : "hidden"}`}>
           <div className="fixed inset-0 z-50 bg-gray-800 bg-opacity-50 flex justify-center items-center">
